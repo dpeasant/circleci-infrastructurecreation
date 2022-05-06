@@ -93,6 +93,10 @@ jobs:
           fingerprints: 
             - "79:c8:07:82:31:96:b7:e9:76:27:d2:37:db:ae:50:05" # You can get this ID in the section where you registered the SSH Key
       - run:
+          name: Install ssh
+          command: |
+            apk add --update openssh-client
+      - run:
           name: Install dependencies
           command: |
             # install the dependencies needed for your playbook
