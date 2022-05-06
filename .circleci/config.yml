@@ -26,7 +26,7 @@ commands:
           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name myStack-05062022a
+            aws cloudformation delete-stack --stack-name myStack-05062022
           
 
 
@@ -75,12 +75,12 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
-              --stack-name myStack-05062022a \
+              --stack-name myStack-05062022b \
               --region us-east-1
       # Fail the job intentionally to simulate an error.
       # Uncomment the line below if you want to fail the current step
       # - run: return 1
-      # - destroy_environment
+      - destroy_environment
 
 
   # Exercise: Config and Deployment
@@ -114,16 +114,15 @@ jobs:
       - run: apk add --update curl
       - run:
           name: smoke test
-          command: return 1
-          # command: |
-          #   URL="https://blog.udacity.com/"
-          #   # Test if website exists
-          #   if curl -s --head ${URL} 
-          #   then
-          #     return 0
-          #   else
-          #     return 1
-          #   fi
+          command: |
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi
       - destroy_environment      
   
   # Exercise: Promote to Production - Job 1 
@@ -226,9 +225,9 @@ workflows:
       # - download_file:
       #     requires:
       #       - upload_file
-      # - create_infrastructure
+      - create_infrastructure
       # - configure_infrastructure
-      - smoke_test
+      # - smoke_test
       # - create_and_deploy_front_end
       # - promote_to_production:
       #     requires: 
